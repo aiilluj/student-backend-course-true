@@ -1,0 +1,359 @@
+{
+  "info": {
+    "_postman_id": "0eeac301-d8e6-4aae-9123-40c4dcb84c27",
+    "name": "Lab2 Books CRUD API",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58573501",
+    "_collection_link": "https://go.postman.co/collection/58573501-0eeac301-d8e6-4aae-9123-40c4dcb84c27?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "GET All Books",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса ответа\r\npm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка наличия поля count\r\npm.test(\"Есть поле count\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('count');\r\n});\r\n\r\n// Проверка наличия поля books\r\npm.test(\"Есть поле books\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('books');\r\n    pm.expect(jsonData.books).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Book by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Есть поле id\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData.id).to.eql(1);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Books Search",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса\r\npm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка, что есть поле books\r\npm.test(\"Есть поле books\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('books');\r\n    pm.expect(jsonData.books).to.be.an('array');\r\n});\r\n\r\n// Проверка, что все найденные книги содержат \"война\" в title\r\npm.test(\"Все книги содержат 'война' в названии\", function () {\r\n    const jsonData = pm.response.json();\r\n    jsonData.books.forEach(function (book) {\r\n        pm.expect(book.title.toLowerCase()).to.include('война');\r\n    });\r\n});\r\n\r\n// Проверка, что найдена хотя бы одна книга\r\npm.test(\"Найдена хотя бы одна книга\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.books.length).to.be.above(0);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books?search=война",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "война"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Books Sort",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса\r\npm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка, что есть поле books\r\npm.test(\"Есть поле books\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('books');\r\n});\r\n\r\n// Проверка сортировки по возрастанию\r\npm.test(\"Книги отсортированы по году (asc)\", function () {\r\n    const jsonData = pm.response.json();\r\n    const years = jsonData.books.map(function (book) { return book.year; });\r\n    for (let i = 1; i < years.length; i++) {\r\n        pm.expect(years[i]).to.be.at.least(years[i - 1]);\r\n    }\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books?sort=year&order=asc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "year"
+                },
+                {
+                  "key": "order",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Books with Pagination",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса\r\npm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка поля page\r\npm.test(\"Есть поле page = 1\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('page');\r\n    pm.expect(jsonData.page).to.eql(1);\r\n});\r\n\r\n// Проверка поля limit\r\npm.test(\"Есть поле limit = 2\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('limit');\r\n    pm.expect(jsonData.limit).to.eql(2);\r\n});\r\n\r\n// Проверка, что вернулось не больше 2 книг\r\npm.test(\"Вернулось не больше 2 книг\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.books.length).to.be.at.most(2);\r\n});\r\n\r\n// Проверка поля total\r\npm.test(\"Есть поле total\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('total');\r\n    pm.expect(jsonData.total).to.be.a('number');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books?page=1&limit=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса 201 Created\r\npm.test(\"Статус 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка наличия ID\r\npm.test(\"Ответ содержит ID\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData.id).to.be.a('number');\r\n});\r\n\r\n// Проверка, что title совпадает\r\npm.test(\"Поле title совпадает\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.title).to.eql('Три товарища');\r\n});\r\n\r\n// Проверка, что year совпадает\r\npm.test(\"Поле year совпадает\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.year).to.eql(1936);\r\n});\r\n\r\n// Проверка, что genre совпадает\r\npm.test(\"Поле genre совпадает\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.genre).to.eql('Роман');\r\n});\r\n\r\n// Проверка, что author совпадает\r\npm.test(\"Поле author совпадает\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.author).to.eql('Эрих Мария Ремарк');\r\n});\r\n\r\n// Сохранение ID созданной книги в переменную окружения (для дальнейших тестов)\r\npm.test(\"Сохранить ID в переменную\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.environment.set(\"created_book_id\", jsonData.id);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Три товарища\",\r\n  \"year\": 1936,\r\n  \"genre\": \"Роман\",\r\n  \"author\": \"Эрих Мария Ремарк\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/books",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса 200 OK\r\npm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка, что id = 1\r\npm.test(\"Поле id = 1\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.id).to.eql(1);\r\n});\r\n\r\n// Проверка, что title обновлён\r\npm.test(\"Поле title обновлено\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.title).to.include('обновлённая');\r\n});\r\n\r\n// Проверка, что year обновлён\r\npm.test(\"Поле year обновлено\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.year).to.eql(1873);\r\n});\r\n\r\n// Проверка, что genre обновлён\r\npm.test(\"Поле genre обновлено\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.genre).to.eql('Роман-эпопея');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Война и мир (обновлённая)\",\r\n  \"year\": 1873,\r\n  \"genre\": \"Роман-эпопея\",\r\n  \"author\": \"Лев Толстой\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/books/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Book",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса 204 No Content\r\npm.test(\"Статус 204 No Content\", function () {\r\n    pm.response.to.have.status(204);\r\n});\r\n\r\n// Проверка, что тело ответа пустое\r\npm.test(\"Тело ответа пустое\", function () {\r\n    pm.expect(pm.response.text()).to.be.empty;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/3",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Errors",
+      "item": [
+        {
+          "name": "GET Nonexistent Book (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса 404 Not Found\r\npm.test(\"Статус 404 Not Found\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка, что есть поле error\r\npm.test(\"Ответ содержит error\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('error');\r\n    pm.expect(jsonData.error).to.be.a('string');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/books/999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Data (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Проверка статуса 400 Bad Request\r\npm.test(\"Статус 400 Bad Request\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n// Проверка, что ответ - JSON\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\n// Проверка, что есть поле errors\r\npm.test(\"Ответ содержит errors\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('errors');\r\n    pm.expect(jsonData.errors).to.be.an('array');\r\n});\r\n\r\n// Проверка, что errors не пустой\r\npm.test(\"Массив errors не пустой\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.errors.length).to.be.above(0);\r\n});\r\n\r\n// Проверка, что в errors упоминается title\r\npm.test(\"Ошибка содержит упоминание title\", function () {\r\n    const jsonData = pm.response.json();\r\n    const allErrors = jsonData.errors.join(' ');\r\n    pm.expect(allErrors).to.include('title');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"\",\r\n  \"year\": \"не число\",\r\n  \"genre\": \"\",\r\n  \"author\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/books",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
