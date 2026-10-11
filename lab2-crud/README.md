@@ -455,7 +455,7 @@ Lab2 Books CRUD API
     └── Invalid Data (400)          (POST {{base_url}}/books)
 ```
 
-![Структура коллекции](11_collection.png)
+![Структура коллекции](11_collection.PNG)
 
 
 ### Автоматические тесты
@@ -522,7 +522,7 @@ pm.test("Ответ содержит error", function () {
 });
 ```
 
-![Пример тестов](12_tests.png)
+![Пример тестов](12_tests.PNG)
 
 ### Результаты Collection Runner
 
@@ -546,9 +546,9 @@ pm.test("Ответ содержит error", function () {
 **Общее время выполнения:** 1s 187ms.  
 **Среднее время ответа:** 4 ms.
 
-![Сводка Collection Runner](13_runner_summary.png)
+![Сводка Collection Runner](13_runner_summary.PNG)
 
-![Детали Collection Runner](14_runner_details.png)
+![Детали Collection Runner](14_runner_details.PNG)
 
 ### Примеры ответов сервера
 
@@ -569,7 +569,7 @@ pm.test("Ответ содержит error", function () {
   ]
 }
 ```
-![GET все книги](15_get_all_books.png)
+![GET все книги](15_get_all_books.PNG)
 
 **GET Books Search – GET `{{base_url}}/books?search=война`**
 
@@ -585,7 +585,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Поиск книг](16_search.png)
+![Поиск книг](16_search.PNG)
 
 **GET Books Sort – GET `{{base_url}}/books?sort=year&order=asc`**
 
@@ -605,7 +605,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Сортировка книг](17_sort.png)
+![Сортировка книг](17_sort.PNG)
 
 **Books with Pagination – GET `{{base_url}}/books?page=1&limit=2`**
 
@@ -622,7 +622,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Пагинация книг](18_pagination.png)
+![Пагинация книг](18_pagination.PNG)
 
 **Create Book – POST `{{base_url}}/books`**
 
@@ -649,7 +649,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Создание книги](19_post_book.png)
+![Создание книги](19_post_book.PNG)
 
 **Update Book – PUT `{{base_url}}/books/1`**
 
@@ -676,13 +676,13 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Обновление книги](20_put_book.png)
+![Обновление книги](20_put_book.PNG)
 
 **Book (DELETE) – DELETE `{{base_url}}/books/3`**
 
 Ответ (204 No Content): пустое тело.
 
-![Удаление книги](21_delete_book.png)
+![Удаление книги](21_delete_book.PNG)
 
 **GET Nonexistent Book (404) – GET `{{base_url}}/books/999`**
 
@@ -694,7 +694,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Ошибка 404](22_404.png)
+![Ошибка 404](22_404.PNG)
 
 **Invalid Data (400) – POST `{{base_url}}/books`**
 
@@ -722,7 +722,7 @@ pm.test("Ответ содержит error", function () {
 }
 ```
 
-![Ошибка 400](23_400.png)
+![Ошибка 400](23_400.PNG)
 
 ## Контрольные вопросы
 
